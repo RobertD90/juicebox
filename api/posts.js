@@ -1,9 +1,10 @@
 const express = require('express');
 const postsRouter = express.Router();
-
+// const { createPost } = require('../db/index.js')
 const { requireUser } = require('./utils');
 
-const { 
+
+const {
   createPost,
   getAllPosts,
   updatePost,
@@ -19,16 +20,16 @@ postsRouter.get('/', async (req, res, next) => {
       if (post.active) {
         return true;
       }
-    
+
       // the post is not active, but it belogs to the current user
       if (req.user && post.author.id === req.user.id) {
         return true;
       }
-    
+
       // none of the above are true
       return false;
     });
-  
+
     res.send({
       posts
     });
@@ -38,7 +39,7 @@ postsRouter.get('/', async (req, res, next) => {
 });
 
 postsRouter.post('/', requireUser, async (req, res, next) => {
-  const { title, content = "" } = req.body;
+  const { title, content = "", tags } = req.body;
 
   const postData = {};
 
@@ -48,6 +49,13 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
     postData.content = content;
 
     const post = await createPost(postData);
+
+
+    if (tags && Array.isArray(tags)) {
+      postData.tags = tags;
+    } else if (tags) {
+      postData.tags = tags.trim().split(/\s,\s/);
+    }
 
     if (post) {
       res.send(post);

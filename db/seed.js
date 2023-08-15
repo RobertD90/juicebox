@@ -1,4 +1,4 @@
-const {  
+const {
   client,
   createUser,
   updateUser,
@@ -8,7 +8,7 @@ const {
   updatePost,
   getAllPosts,
   getAllTags,
-  getPostsByTagName
+  getPostsByTagName,
 } = require('./index');
 
 async function dropTables() {
@@ -75,25 +75,25 @@ async function createInitialUsers() {
   try {
     console.log("Starting to create users...");
 
-    await createUser({ 
-      username: 'albert', 
+    await createUser({
+      username: 'albert',
       password: 'bertie99',
       name: 'Al Bert',
-      location: 'Sidney, Australia' 
+      location: 'Sidney, Australia'
     });
-    await createUser({ 
-      username: 'sandra', 
+    await createUser({
+      username: 'sandra',
       password: '2sandy4me',
       name: 'Just Sandra',
       location: 'Ain\'t tellin\''
     });
-    await createUser({ 
+    await createUser({
       username: 'glamgal',
       password: 'soglam',
       name: 'Joshua',
       location: 'Upper East Side'
     });
-    
+
     console.log("Finished creating users!");
   } catch (error) {
     console.error("Error creating users!");
